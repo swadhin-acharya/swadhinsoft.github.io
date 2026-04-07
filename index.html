@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swadhin Acharya — QA Automation Consultant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --bg2:       #161b22;
+      --bg3:       #21262d;
+      --green:     #39d353;
+      --cyan:      #58a6ff;
+      --accent:    #00e5a0;
+      --yellow:    #e3b341;
+      --red:       #f85149;
+      --text:      #c9d1d9;
+      --muted:     #8b949e;
+      --border:    #30363d;
+      --mono:      'Fira Code', monospace;
+      --sans:      'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ─── NAV ───────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 56px;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--muted); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a::before { content: './'; color: var(--border); }
+
+    /* ─── HERO ──────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 80px 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.15;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 800px; text-align: left; }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .hero-eyebrow::before {
+      content: '>';
+      animation: blink 1.2s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    h1.hero-name {
+      font-family: var(--sans);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: #f0f6fc;
+      margin-bottom: 0.5rem;
+    }
+    h1.hero-name .accent { color: var(--accent); }
+
+    .hero-title {
+      font-family: var(--mono);
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--cyan);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .stat-item { text-align: left; }
+    .stat-num {
+      font-family: var(--mono);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0d1117;
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── SECTION WRAPPER ───────────────────────── */
+    section { padding: 80px 2rem; max-width: 1000px; margin: 0 auto; }
+
+    .section-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #f0f6fc;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── ABOUT ─────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+    .about-text p strong { color: var(--text); }
+
+    .terminal-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .terminal-bar {
+      background: var(--bg3);
+      padding: 0.7rem 1rem;
+      display: flex; gap: 0.4rem; align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #f85149; }
+    .dot-y { background: #e3b341; }
+    .dot-g { background: #39d353; }
+    .terminal-filename {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+    .terminal-body {
+      padding: 1.2rem 1.4rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.9;
+    }
+    .t-key { color: var(--cyan); }
+    .t-str { color: var(--yellow); }
+    .t-num { color: #79c0ff; }
+    .t-bool { color: var(--red); }
+    .t-muted { color: var(--muted); }
+
+    /* ─── EXPERIENCE ────────────────────────────── */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.8rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.375rem;
+      top: 0.35rem;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .timeline-header {
+      margin-bottom: 0.5rem;
+    }
+    .timeline-role {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #f0f6fc;
+    }
+    .timeline-company {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--cyan);
+      margin-top: 0.15rem;
+    }
+    .timeline-period {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+    .timeline-tag {
+      display: inline-block;
+      background: rgba(0,229,160,0.08);
+      border: 1px solid rgba(0,229,160,0.25);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 3px;
+      margin-top: 0.3rem;
+    }
+    .timeline-desc {
+      margin-top: 0.7rem;
+      list-style: none;
+    }
+    .timeline-desc li {
+      font-size: 0.87rem;
+      color: var(--muted);
+      padding: 0.2rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .timeline-desc li::before {
+      content: '▸';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+    }
+    .timeline-desc li strong { color: var(--text); }
+
+    /* ─── SKILLS ────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-card-title {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      background: rgba(0,229,160,0.08);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ─── ACHIEVEMENTS ──────────────────────────── */
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .achievement-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .achievement-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .achievement-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+    }
+    .achievement-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      line-height: 1;
+    }
+    .achievement-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #f0f6fc;
+      margin-bottom: 0.4rem;
+    }
+    .achievement-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── OPEN SOURCE ───────────────────────────── */
+    .oss-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .repo-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+    .repo-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+    .repo-card-header {
+      display: flex; align-items: center; gap: 0.5rem;
+      margin-bottom: 0.7rem;
+    }
+    .repo-icon { color: var(--muted); font-size: 1rem; }
+    .repo-name {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--cyan);
+      font-weight: 600;
+    }
+    .repo-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      flex: 1;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .repo-meta {
+      display: flex; gap: 1rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .repo-lang::before { content: '● '; color: var(--yellow); }
+    .oss-note {
+      margin-top: 2rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .oss-note a { color: var(--cyan); }
+
+    /* ─── EDUCATION ─────────────────────────────── */
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .edu-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .edu-card:hover { border-color: var(--cyan); }
+    .edu-year {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .edu-degree {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #f0f6fc;
+      margin-bottom: 0.3rem;
+    }
+    .edu-school {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ─── CONTACT ───────────────────────────────── */
+    #contact {
+      text-align: center;
+      padding: 80px 2rem 120px;
+    }
+    #contact .section-header { justify-content: center; }
+    .contact-heading {
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: #f0f6fc;
+      margin-bottom: 0.8rem;
+    }
+    .contact-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+    }
+    .contact-links {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── FOOTER ────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    footer span { color: var(--accent); }
+
+    /* ─── RESPONSIVE ────────────────────────────── */
+    @media (max-width: 700px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.7rem; }
+      .about-grid, .edu-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+    }
+
+    /* ─── FADE-IN ANIMATION ─────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">swadhin<span>.acharya</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#achievements">achievements</a></li>
+    <li><a href="#oss">open-source</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────── -->
+<div id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">QA Automation Consultant &amp; Engineer</div>
+    <h1 class="hero-name">Swadhin<br/><span class="accent">Acharya</span></h1>
+    <div class="hero-title">// Associate Consultant @ GlobalLogic</div>
+    <p class="hero-bio">
+      Insightful automation engineer with <strong>9+ years</strong> of experience building robust
+      test frameworks for Web, Mobile, and TV platforms. Known for leading teams,
+      driving quality at scale, and creating innovative solutions — including the
+      <strong>world's first AI-powered custom WebDriver for RokuTV</strong>.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">9+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">7+</div>
+        <div class="stat-label">Years in Automation</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Companies</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Platforms Automated</div>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="#experience" class="btn btn-primary">View My Work</a>
+      <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT ─────────────────────────────────── -->
+<section id="about">
+  <div class="section-header fade-in">
+    <span class="section-num">01.</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>
+        I'm a <strong>QA Automation Consultant</strong> based in Bangalore, India,
+        specializing in building scalable automation frameworks for Web, Mobile, and
+        connected TV platforms including Android, FireTV, and RokuTV.
+      </p>
+      <p>
+        Over my career I've worked with industry leaders like <strong>GlobalLogic</strong>,
+        <strong>Samsung R&amp;D</strong>, and contributed to projects for global brands like
+        <strong>Diligent</strong>, <strong>Discovery Digital Networks</strong>, and
+        <strong>Samsung Internet Browser</strong>.
+      </p>
+      <p>
+        I thrive at the intersection of engineering and quality — deriving automation
+        strategy, leading teams, and creating tooling that pushes the boundaries of
+        what's testable. One of my proudest achievements is creating a
+        <strong>custom AI-powered WebDriver for RokuTV</strong> — a world first.
+      </p>
+      <p>
+        Outside work, I'm fluent in <strong>English</strong>, <strong>Hindi</strong>,
+        and <strong>Odia</strong>, and I enjoy mentoring engineers on automation best practices.
+      </p>
+    </div>
+    <div class="terminal-card fade-in">
+      <div class="terminal-bar">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="terminal-filename">swadhin.json</span>
+      </div>
+      <div class="terminal-body">
+        <span class="t-muted">{</span><br/>
+        &nbsp;&nbsp;<span class="t-key">"name"</span>: <span class="t-str">"Swadhin Acharya"</span>,<br/>
+        &nbsp;&nbsp;<span class="t-key">"role"</span>: <span class="t-str">"Associate Consultant"</span>,<br/>
+        &nbsp;&nbsp;<span class="t-key">"company"</span>: <span class="t-str">"GlobalLogic"</span>,<br/>
+        &nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-str">"Bangalore, India"</span>,<br/>
+        &nbsp;&nbsp;<span class="t-key">"experience"</span>: <span class="t-num">9</span>,<br/>
+        &nbsp;&nbsp;<span class="t-key">"speciality"</span>: [<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Web Automation"</span>,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Mobile Automation"</span>,<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"TV Platforms"</span><br/>
+        &nbsp;&nbsp;],<br/>
+        &nbsp;&nbsp;<span class="t-key">"open_to_work"</span>: <span class="t-bool">true</span>,<br/>
+        &nbsp;&nbsp;<span class="t-key">"email"</span>: <span class="t-str">"interviews.swadhin<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@gmail.com"</span><br/>
+        <span class="t-muted">}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ─────────────────────────────── -->
+<section id="experience">
+  <div class="section-header fade-in">
+    <span class="section-num">02.</span>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-header">
+        <div class="timeline-role">Associate Consultant</div>
+        <div class="timeline-company">GlobalLogic · Bangalore, India</div>
+        <div class="timeline-period">Sep 2022 — Present</div>
+        <span class="timeline-tag">Current Role</span>
+      </div>
+      <ul class="timeline-desc">
+        <li>Working on <strong>Diligent</strong> — a SaaS platform for board member collaboration used by corporations, governments, and non-profits worldwide.</li>
+        <li>Developing and maintaining automation framework for current and upcoming product versions.</li>
+        <li>Deriving scripts from manual test cases into robust automation test cases.</li>
+        <li>Writing generic function scripts for <strong>ICompass</strong> and integrating them in the automation suite.</li>
+        <li>Conducting POCs for new technologies to evaluate automation feasibility.</li>
+        <li><strong>Leading an automation team of 6 engineers.</strong></li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-header">
+        <div class="timeline-role">Senior Software Engineer</div>
+        <div class="timeline-company">Samsung R&amp;D Institute India · Bangalore, India</div>
+        <div class="timeline-period">Nov 2021 — Sep 2022</div>
+      </div>
+      <ul class="timeline-desc">
+        <li>Worked on <strong>Samsung Internet Browser (S Browser)</strong> — a fast, feature-rich browser with VR support and Samsung Pay integration.</li>
+        <li>Developed automation framework for current and upcoming browser versions.</li>
+        <li>Wrote scripts for generic functions of S-Browser and integrated them into the automation suite.</li>
+        <li>Built automation scripts for Chromium engine verification (latest version upgrades).</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-header">
+        <div class="timeline-role">Senior Software Engineer</div>
+        <div class="timeline-company">GlobalLogic · Bangalore, India</div>
+        <div class="timeline-period">Sep 2019 — Nov 2021</div>
+      </div>
+      <ul class="timeline-desc">
+        <li>Worked on <strong>Discovery Digital Networks</strong> — multi-channel internet TV content creation and distribution.</li>
+        <li>Built automation framework using Selenium and Appium for Android mobile platforms.</li>
+        <li>Developed automation using a custom-built driver for the <strong>RokuTV platform</strong>.</li>
+        <li>Executed test cases across Android Mobiles, AndroidTV, RokuTV, and FireTV form factors.</li>
+        <li><strong>Created the world's first custom WebDriver for RokuTV with AI-powered auto-traversal.</strong></li>
+        <li>Managed and mentored a team of 7 engineers.</li>
+        <li>Authored BDD feature files and corresponding test scripts.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-header">
+        <div class="timeline-role">Software Test Engineer</div>
+        <div class="timeline-company">Indecomm Global Services · Bangalore, India</div>
+        <div class="timeline-period">Jun 2019 — Sep 2019</div>
+      </div>
+      <ul class="timeline-desc">
+        <li>Worked on <strong>Manhattan Active™ Omni</strong> — a cloud-native omnichannel order management and POS platform.</li>
+        <li>Developed automation framework using the <strong>Eggplant IO</strong> automation tool.</li>
+        <li>Executed tests across Android Mobiles, iOS (iPad/iPod), and browser platforms.</li>
+        <li>Managed Postman collections for backend data creation.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-header">
+        <div class="timeline-role">Software Test Engineer</div>
+        <div class="timeline-company">Integra Micro Software Services · Bangalore, India</div>
+        <div class="timeline-period">Mar 2017 — Jun 2019</div>
+      </div>
+      <ul class="timeline-desc">
+        <li>Worked on <strong>Samsung Internet (S Browser)</strong> — mobile app testing &amp; QA for the search engine.</li>
+        <li>Developed test automation framework using Selenium, Appium, TestNG, and Jenkins.</li>
+        <li>Executed Functionality, Smoke, Integration, Regression, and Stress Testing.</li>
+        <li>Developed Chromium engine verification automation scripts.</li>
+        <li>Bug reporting and tracking via standard bug-tracking tools.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-header">
+        <div class="timeline-role">Assistant Engineer</div>
+        <div class="timeline-company">Hofincons Infotech and Industrial Services · Nellore, India</div>
+        <div class="timeline-period">Oct 2015 — Aug 2016</div>
+      </div>
+      <ul class="timeline-desc">
+        <li>Worked with steam turbine instrumentation, monitoring, and system design.</li>
+        <li>Executed cable routing and applied manufacturing and quality specifications.</li>
+        <li>Reviewed and optimized processes to improve system efficiency.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ─────────────────────────────────── -->
+<section id="skills">
+  <div class="section-header fade-in">
+    <span class="section-num">03.</span>
+    <h2 class="section-title">Skills &amp; Tools</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card fade-in">
+      <div class="skill-card-title">Languages &amp; Frameworks</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">Selenium WebDriver</span>
+        <span class="skill-tag">Appium</span>
+        <span class="skill-tag">TestNG</span>
+        <span class="skill-tag">Cucumber</span>
+        <span class="skill-tag">RestAssured</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-card-title">Testing Methodologies</div>
+      <div class="skill-tags">
+        <span class="skill-tag">TDD</span>
+        <span class="skill-tag">BDD</span>
+        <span class="skill-tag">Regression Testing</span>
+        <span class="skill-tag">Smoke Testing</span>
+        <span class="skill-tag">Functional Testing</span>
+        <span class="skill-tag">Compatibility Testing</span>
+        <span class="skill-tag">Exploratory Testing</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-card-title">Platforms &amp; Devices</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Android Mobile</span>
+        <span class="skill-tag">Android TV</span>
+        <span class="skill-tag">FireTV</span>
+        <span class="skill-tag">RokuTV</span>
+        <span class="skill-tag">iOS</span>
+        <span class="skill-tag">Web</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-card-title">DevOps &amp; Tools</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Maven</span>
+        <span class="skill-tag">Jenkins</span>
+        <span class="skill-tag">Postman</span>
+        <span class="skill-tag">Eggplant IO</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-card-title">Process &amp; Practices</div>
+      <div class="skill-tags">
+        <span class="skill-tag">SDLC</span>
+        <span class="skill-tag">STLC</span>
+        <span class="skill-tag">Test Planning</span>
+        <span class="skill-tag">Bug Tracking</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">Team Leadership</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-card-title">Languages Spoken</div>
+      <div class="skill-tags">
+        <span class="skill-tag">English</span>
+        <span class="skill-tag">Hindi</span>
+        <span class="skill-tag">Odia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ACHIEVEMENTS ───────────────────────────── -->
+<section id="achievements">
+  <div class="section-header fade-in">
+    <span class="section-num">04.</span>
+    <h2 class="section-title">Achievements</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="achievements-grid">
+    <div class="achievement-card fade-in">
+      <div class="achievement-icon">🌍</div>
+      <div class="achievement-title">World's First RokuTV Custom WebDriver</div>
+      <div class="achievement-desc">
+        Built the world's first custom WebDriver for RokuTV that supports AI-powered
+        auto-traversal to UI elements — a groundbreaking innovation in TV platform automation.
+      </div>
+    </div>
+    <div class="achievement-card fade-in">
+      <div class="achievement-icon">📅</div>
+      <div class="achievement-title">9+ Years of Industry Experience</div>
+      <div class="achievement-desc">
+        Over nine years of corporate experience spanning automation engineering, consulting,
+        and team leadership across multiple top-tier technology companies.
+      </div>
+    </div>
+    <div class="achievement-card fade-in">
+      <div class="achievement-icon">🤖</div>
+      <div class="achievement-title">7+ Years of Automation Expertise</div>
+      <div class="achievement-desc">
+        Seven-plus years of hands-on experience building Mobile and Web automation
+        frameworks from scratch, maintaining them, and scaling them across large QA teams.
+      </div>
+    </div>
+    <div class="achievement-card fade-in">
+      <div class="achievement-icon">📺</div>
+      <div class="achievement-title">Multi-Platform TV Automation Pioneer</div>
+      <div class="achievement-desc">
+        One of very few engineers with deep expertise in automating all three major
+        connected TV platforms: Android TV, Amazon FireTV, and RokuTV.
+      </div>
+    </div>
+    <div class="achievement-card fade-in">
+      <div class="achievement-icon">👥</div>
+      <div class="achievement-title">Team Leadership</div>
+      <div class="achievement-desc">
+        Led automation teams of 6–7 engineers at GlobalLogic, driving quality strategy,
+        mentoring junior members, and aligning automation efforts with product roadmaps.
+      </div>
+    </div>
+    <div class="achievement-card fade-in">
+      <div class="achievement-icon">🏢</div>
+      <div class="achievement-title">Enterprise-Scale Projects</div>
+      <div class="achievement-desc">
+        Delivered automation for globally recognized products including Samsung Internet Browser,
+        Discovery Digital Networks, and Diligent's government-facing SaaS platform.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── OPEN SOURCE ────────────────────────────── -->
+<section id="oss">
+  <div class="section-header fade-in">
+    <span class="section-num">05.</span>
+    <h2 class="section-title">Open Source &amp; Innovation</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="oss-grid">
+    <div class="repo-card fade-in" style="cursor:default;">
+      <div class="repo-card-header">
+        <span class="repo-icon">📦</span>
+        <span class="repo-name">roku-webdriver-ai</span>
+      </div>
+      <div class="repo-desc">
+        World's first custom WebDriver for RokuTV with AI-powered auto-traversal to
+        UI elements. Enables Selenium-style automation on the Roku platform — a
+        previously untestable surface.
+      </div>
+      <div class="repo-meta">
+        <span class="repo-lang">Java</span>
+        <span>Automation · TV Platforms</span>
+      </div>
+    </div>
+    <div class="repo-card fade-in" style="cursor:default;">
+      <div class="repo-card-header">
+        <span class="repo-icon">📦</span>
+        <span class="repo-name">automation-framework-cucumber-testng</span>
+      </div>
+      <div class="repo-desc">
+        BDD-based automation framework using Cucumber and TestNG for Web and Mobile
+        platforms. Implements reusable page objects, reporting, and CI/CD integration
+        with Jenkins.
+      </div>
+      <div class="repo-meta">
+        <span class="repo-lang">Java</span>
+        <span>Selenium · Appium · BDD</span>
+      </div>
+    </div>
+    <div class="repo-card fade-in" style="cursor:default;">
+      <div class="repo-card-header">
+        <span class="repo-icon">📦</span>
+        <span class="repo-name">firetv-appium-framework</span>
+      </div>
+      <div class="repo-desc">
+        Automation framework for Amazon FireTV using Appium with custom device
+        handling strategies. Supports navigation, content validation, and playback
+        testing on Fire TV devices.
+      </div>
+      <div class="repo-meta">
+        <span class="repo-lang">Java</span>
+        <span>Appium · FireTV</span>
+      </div>
+    </div>
+  </div>
+  <div class="oss-note fade-in">
+    &#128279; Find more of my work and contributions on
+    <a href="https://github.com/swadhinsoft" target="_blank" rel="noopener">github.com/swadhinsoft</a>
+  </div>
+</section>
+
+<!-- ── EDUCATION ──────────────────────────────── -->
+<section id="education">
+  <div class="section-header fade-in">
+    <span class="section-num">06.</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card fade-in">
+      <div class="edu-year">2014</div>
+      <div class="edu-degree">B.Tech — Electronics &amp; Telecommunication</div>
+      <div class="edu-school">Biju Patnaik University of Technology · Bhubaneswar, Odisha</div>
+    </div>
+    <div class="edu-card fade-in">
+      <div class="edu-year">2011</div>
+      <div class="edu-degree">Diploma — Electronics &amp; Instrumentation Engineering</div>
+      <div class="edu-school">SCTEVT · Cuttack, Odisha</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────── -->
+<section id="contact" style="max-width:1000px; margin:0 auto;">
+  <div class="section-header fade-in" style="justify-content:center;">
+    <span class="section-num">07.</span>
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="contact-heading fade-in">Let's work together.</p>
+  <p class="contact-sub fade-in">
+    Open to consulting engagements, full-time roles, and speaking on test automation
+    strategy. Drop me a line anytime.
+  </p>
+  <div class="contact-links fade-in">
+    <a href="mailto:interviews.swadhin@gmail.com" class="contact-link">
+      ✉ interviews.swadhin@gmail.com
+    </a>
+    <a href="tel:+917892940208" class="contact-link">
+      ☎ +91 78929 40208
+    </a>
+    <a href="https://github.com/swadhinsoft" target="_blank" rel="noopener" class="contact-link">
+      ⌥ GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/swadhin-acharya-a4053b161" target="_blank" rel="noopener" class="contact-link">
+      ⊞ LinkedIn
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer>
+  Designed &amp; built by <span>Swadhin Acharya</span> · Bangalore, India
+</footer>
+
+<!-- ── SCROLL ANIMATIONS ──────────────────────── -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Typing effect for hero eyebrow
+  const eyebrow = document.querySelector('.hero-eyebrow');
+  const text = eyebrow.textContent;
+  eyebrow.textContent = '';
+  let i = 0;
+  function typeChar() {
+    if (i < text.length) {
+      eyebrow.textContent += text[i++];
+      setTimeout(typeChar, 45);
+    }
+  }
+  setTimeout(typeChar, 500);
+</script>
+</body>
+</html>
